@@ -8,14 +8,16 @@ class Game
   def play
     @board.setup
     until won?
+      system "clear"
       @board.render
       pos, flag = get_input
+      tile = @board[pos]
       if flag
-        @board[pos].flag
-      elsif @board[pos].flagged?
+        tile.flagged? ? tile.unflag : tile.flag
+      elsif tile.flagged?
         puts "This position is flagged!"
       else
-        return puts "You lose" if @board[pos].is_mine?
+        return puts "You lose" if tile.is_mine?
         @board.show_adjacent_tiles(pos)
       end
     end
@@ -23,7 +25,7 @@ class Game
   end
 
   def get_input
-    puts "give me a position between 0 and #{@board.size}"
+    puts "give me a position between 0 and #{@board.size - 1}, add an f to flag or to unflag"
     parse_input(gets.chomp)
   end
 

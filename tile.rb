@@ -1,4 +1,16 @@
+require 'colorized_string'
+
 class Tile
+
+  COLORS = {
+    0 => :black,
+    1 => :blue,
+    2 => :green,
+    3 => :red,
+    4 => :blue
+  }
+
+  FLAG = "|\u2691|"
 
   attr_accessor :value
 
@@ -16,14 +28,23 @@ class Tile
   end
 
   def to_s
-    return "|f|" if @flagged
+    return color(FLAG.encode('utf-8'), :red) if @flagged
     return "|_|" unless @flipped
     return "|*|" if @mine
-    @value ? "|#{value}|" : "|0|"
+    value > 0 ? color("|#{value}|", COLORS[value]) : color("|_|", :light_black)
+  end
+
+  def color(string, color = :white)
+    ColorizedString[string].colorize(color)
+
   end
 
   def flag
     @flagged = true
+  end
+
+  def unflag
+    @flagged = false
   end
 
   def flagged?
