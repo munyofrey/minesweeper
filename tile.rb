@@ -14,7 +14,7 @@ class Tile
   def to_s
     return "|_|" unless @flipped
     return "|*|" if @mine
-    return "|O|" unless @mine
+    @value ? "|#{value}|" : "|0|"
   end
 
   def flipped?

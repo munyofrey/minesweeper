@@ -20,8 +20,11 @@ class Board
 
   def show_adjacent_tiles(pos)
     return if self[pos].nil?
-    return if adjacent_tiles(pos).any?{|tile| self[tile].is_mine?}
+    # return if adjacent_tiles(pos).any?{|tile| self[tile].is_mine?}
+    mine_count = adjacent_tiles(pos).inject(0) { |sum, pos| self[pos].is_mine? ? sum += 1 : sum  }
     self[pos].show
+    self[pos].value = mine_count
+    return if mine_count > 0
     adjacent_tiles(pos).each do |tile_pos|
       tile = self[tile_pos]
       next if tile.flipped?
