@@ -19,17 +19,20 @@ class Board
   end
 
   def show_adjacent_tiles(pos)
+    return if self[pos].nil?
+    return if adjacent_tiles(pos).any?{|tile| self[tile].is_mine?}
     self[pos].show
     adjacent_tiles(pos).each do |tile_pos|
-      tile = self[pos]
-      next if tile.nil?
-      show_adjacent_tiles(pos)
+      tile = self[tile_pos]
+      next if tile.flipped?
+      show_adjacent_tiles(tile_pos)
     end
   end
 
   def adjacent_tiles(pos)
     x, y = pos
-    [[x, y + 1],[x, y - 1],[x + 1, y],[x - 1, y]]
+    adj = [[x, y + 1],[x, y - 1],[x + 1, y],[x - 1, y]]
+    adj.reject { |pos| self[pos].nil? || pos[0] < 0 || pos[1] < 0 }
   end
 
   def place_mine
@@ -42,7 +45,7 @@ class Board
 
   def [](pos)
     x, y = pos
-    return nil if @grid[x] = nil
+    return nil if @grid[x] == nil
     @grid[x][y]
 
   end

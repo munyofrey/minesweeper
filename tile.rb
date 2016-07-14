@@ -12,9 +12,9 @@ class Tile
   end
 
   def to_s
-    return "|_| " unless @flipped
+    return "|_|" unless @flipped
     return "|*|" if @mine
-    return "|_|" unless @mine
+    return "|O|" unless @mine
   end
 
   def flipped?

@@ -7,6 +7,7 @@ class Game
 
   def play
     @board.setup
+    @board.show_adjacent_tiles([5,5])
     @board.render
   end
 
