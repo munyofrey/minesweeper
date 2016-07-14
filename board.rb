@@ -4,7 +4,15 @@ require_relative 'tile'
 class Board
 
   def initialize(size)
-    @grid = Array.new(size) { Array.new(size) { Tile.new } }
+    @grid = []
+    size.times do |x|
+      row = []
+      size.times do |y|
+        row << Tile.new([x,y])
+      end
+      @grid << row
+    end
+    # @grid = Array.new(size) { Array.new(size) { Tile.new } }
     @mines = []
   end
 
@@ -53,9 +61,17 @@ class Board
 
   end
 
+  def won?
+    unflipped = @grid.flatten.reject { |tile| tile.flipped? }.map(&:pos)
+    unflipped.sort == @mines.sort
+  end
+
   def render
-    @grid.each do |row|
-      puts row.join
+    print "   "
+    puts (0...size).to_a.join("  ")
+    @grid.each_with_index do |row, index|
+      print
+      puts "#{index} #{row.join}"
     end
   end
 
