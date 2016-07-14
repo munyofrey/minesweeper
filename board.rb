@@ -17,7 +17,6 @@ class Board
   end
 
 
-
   def size
     @grid.size
   end
@@ -58,7 +57,6 @@ class Board
     x, y = pos
     return nil if @grid[x] == nil
     @grid[x][y]
-
   end
 
   def won?
@@ -73,6 +71,12 @@ class Board
       print
       puts "#{index} #{row.join}"
     end
+  end
+
+  def save
+    puts "name for your save"
+    name = "saves/" + gets.chomp + ".yaml"
+    File.write(name, self.to_yaml)
   end
 
 end
