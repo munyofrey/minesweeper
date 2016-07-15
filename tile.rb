@@ -11,6 +11,7 @@ class Tile
   }
 
   FLAG = "|\u2691|"
+  BOMB = "|\u263C|"
 
   attr_accessor :value
 
@@ -30,7 +31,7 @@ class Tile
   def to_s
     return color(FLAG.encode('utf-8'), :red) if @flagged
     return "|_|" unless @flipped
-    return "|*|" if @mine
+    return color(BOMB.encode('utf-8'), :red) if @mine
     value > 0 ? color("|#{value}|", COLORS[value]) : color("|_|", :light_black)
   end
 

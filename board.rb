@@ -3,7 +3,7 @@ require_relative 'tile'
 
 class Board
 
-  def initialize(size)
+  def initialize(size,num)
     @grid = []
     size.times do |x|
       row = []
@@ -12,17 +12,20 @@ class Board
       end
       @grid << row
     end
-    # @grid = Array.new(size) { Array.new(size) { Tile.new } }
+    @mine_count= num
     @mines = []
   end
 
+  def show_mines
+    @mines.each { |mine| self[mine].show }
+  end
 
   def size
     @grid.size
   end
 
   def setup
-    place_mine until @mines.length == size
+    place_mine until @mines.length == @mine_count
   end
 
   def show_adjacent_tiles(pos)
@@ -66,7 +69,7 @@ class Board
 
   def render
     print "   "
-    puts (0...size).to_a.join("  ")
+    puts (0...size).to_a.join("||")
     @grid.each_with_index do |row, index|
       print
       puts "#{index} #{row.join}"

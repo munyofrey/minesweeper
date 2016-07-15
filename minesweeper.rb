@@ -16,13 +16,19 @@ class Game
       @board.render
       pos, flag, saved = get_input
       return if saved
+      next if pos[0] >= @board.size || pos[1] >= @board.size
       tile = @board[pos]
       if flag
         tile.flagged? ? tile.unflag : tile.flag
       elsif tile.flagged?
         puts "This position is flagged!"
+      elsif tile.is_mine?
+         system "clear"
+         @board.show_mines
+         @board.render
+         puts "You lose"
+         return
       else
-        return puts "You lose" if tile.is_mine?
         @board.show_adjacent_tiles(pos)
       end
     end
@@ -67,7 +73,9 @@ if __FILE__ == $PROGRAM_NAME
   else
     puts "Give me the size of the board (9 for a 9x9 grid)"
     size = gets.chomp.to_i
-    board = Board.new(size)
+    puts "What is your desired number of mines?"
+    num = gets.chomp.to_i
+    board = Board.new(size,num)
   end
   system "clear"
 
