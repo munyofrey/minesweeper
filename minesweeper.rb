@@ -57,6 +57,9 @@ if __FILE__ == $PROGRAM_NAME
   puts "Would you like to load a game (y/n)"
   response = gets.chomp
   if response == "y"
+    system "clear"
+    puts "Possible saves"
+    puts Dir.entries("saves").reject { |name| name == "." || name == ".." || name == ".gitignore" }.map { |name| name[0..-6] }.join(" ")
     puts "enter file name"
     file_name = gets.chomp + ".yaml"
     old_game = File.read("saves/" + file_name)
